@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "230708664435",
+    "firebase_url": "https://smart-moodle.firebaseio.com",
+    "project_id": "smart-moodle",
+    "storage_bucket": "smart-moodle.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:230708664435:android:59615bdd8b898c617b3206",
+        "android_client_info": {
+          "package_name": "br.com.smart_moodle"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "230708664435-bh3dnu2oj1ct0qg4qggd9fl83r178269.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAJ8AMyNc6tuxjZM8bX0BzNsYoSyp2Pa1U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "230708664435-bh3dnu2oj1ct0qg4qggd9fl83r178269.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
