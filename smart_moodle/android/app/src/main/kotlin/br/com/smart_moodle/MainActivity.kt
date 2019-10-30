@@ -1,4 +1,4 @@
-package com.example.smart_moodle
+package br.com.smart_moodle
 
 import android.os.Bundle
 
