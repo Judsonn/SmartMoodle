@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:smart_moodle/pages/activities.dart';
 
 class HomePage extends StatefulWidget {
   HomePage({Key key, this.title}) : super(key: key);
@@ -11,9 +12,18 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-
   void addUser() {
-    Firestore.instance.collection('users').document().setData({ 'name': 'Judite', 'code': '1702450028' });
+    Firestore.instance
+        .collection('users')
+        .document()
+        .setData({'name': 'Judite', 'code': '1702450028'});
+  }
+
+  void navigateToActivities() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => ActivityPage()),
+    );
   }
 
   @override
@@ -21,6 +31,9 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
+        actions: <Widget>[
+          IconButton(icon: Icon(Icons.menu), onPressed: navigateToActivities)
+        ],
       ),
       body: StreamBuilder<QuerySnapshot>(
         stream: Firestore.instance.collection('users').snapshots(),
@@ -45,7 +58,11 @@ class _HomePageState extends State<HomePage> {
       floatingActionButton: FloatingActionButton(
         onPressed: addUser,
         tooltip: "Adicionar um novo usuário",
-        child: Icon(Icons.add),
+        child: Icon(
+          Icons.add,
+          color: Colors.white,
+        ),
+        backgroundColor: Colors.blue,
       ),
     );
   }
