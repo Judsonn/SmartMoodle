@@ -19,17 +19,21 @@ class _ActivityPageState extends State<ActivityPage> {
       body: StreamBuilder<QuerySnapshot>(
         stream: Firestore.instance.collection('activities').snapshots(),
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-          if (snapshot.hasError) return new Text('Error: ${snapshot.error}');
+          if (snapshot.hasError) return Text('Error: ${snapshot.error}');
           switch (snapshot.connectionState) {
             case ConnectionState.waiting:
-              return new Text('Carregando...');
+              return Text('Carregando...');
             default:
-              return new ListView(
+              return ListView(
                 children:
                     snapshot.data.documents.map((DocumentSnapshot doc) {
-                  return new ListTile(
-                    title: new Text(doc['name']),
-                    subtitle: new Text('Tempo necessário: ${doc['time']} - Dificuldade: ${doc['difficult']} '),
+                      String _name = doc['name'];
+                      String _time = doc['time'];
+                      int _difficult = doc['difficult'];
+
+                  return ListTile(
+                    title: Text(_name),
+                    subtitle: Text('Tempo necessário: $_time | Dificuldade: $_difficult '),
                   );
                 }).toList(),
               );
