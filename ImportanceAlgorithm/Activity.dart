@@ -1,46 +1,42 @@
-import 'dart:ffi';
 
 class Activity {
-  Float importance;
-  Float percentage;
-  Float hours;
+  double importance;
+  double percentage;
+  double hours;
 
-  Float get act_impor{
+  double get act_impor{
     return importance;
   }
 
-  void set act_impor(Float importance){
+  void set act_impor(double importance){
     this.importance = importance;
   }
 
-  Float get act_perce{
+  double get act_perce{
     return percentage;
   }
 
-  void set act_perce(Float percentage){
+  void set act_perce(double percentage){
     this.percentage = percentage;
   }
 
-  Float get act_hours {
+  double get act_hours {
     return hours;
   }
 
-  void set act_hours(Float hours){
+  void set act_hours(double hours){
     this.hours = hours;
   }
 
-  Float calc_priority(Float importance, Float percentage, Float hours){
-    Float priority = (percentage * 0.01) / importance;
+  double calc_priority(double importance, double percentage, double hours){
+    double priority = (percentage * 0.01) / importance;
     priority = priority * hours;
     return priority;
   }
 }
 
-main() {
-  Float importance = 5;
-  Float percentage = 50;
-  Float hours = 48;
+main(double importance, double percentage, double hours) {
   Activity act = new Activity();
-  Float priori = act.calc_priority(importance, percentage, hours);
+  double priori = act.calc_priority(importance, percentage, hours);
   print(priori);
 }
