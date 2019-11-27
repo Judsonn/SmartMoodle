@@ -1,5 +1,8 @@
+import 'package:SmartMoodle/helpers/navigator.dart';
+import 'package:SmartMoodle/helpers/user_preferences.dart';
+import 'package:SmartMoodle/services/moodle.dart';
 import 'package:flutter/material.dart';
-import 'package:SmartMoodle/pages/home/home_page.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -9,26 +12,79 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   TextStyle style = TextStyle(fontFamily: 'Montserrat', fontSize: 20.0);
 
+  Map<String, dynamic> state = {'student_code': '', 'password': ''};
+
+  void login() async {
+    String studentCode = state['student_code'];
+    String password = state['password'];
+
+    Map<String, dynamic> loginData =
+        await MoodleAPI().login(studentCode, password);
+    if (loginData.containsKey('token')) {
+      String token = loginData['token'];
+      String privateToken = loginData['privatetoken'];
+
+      Map<String, dynamic> userData = await MoodleAPI().userData(token);
+      List<String> userInformations = [
+        userData['username'],
+        userData['fullname'],
+        userData['firstname'],
+        userData['lastname'],
+        userData['userid'].toString(),
+        userData['userpictureurl'],
+      ];
+
+      UserPreferences.createSession(token, privateToken, userInformations);
+      await navigateAndClearTo(context, 'home');
+      return;
+    }
+
+    Alert(
+        context: context,
+        type: AlertType.error,
+        title: loginData['error'],
+        buttons: [
+          DialogButton(
+            child: Text(
+              "FECHAR",
+              style: TextStyle(color: Colors.white, fontSize: 20),
+            ),
+            onPressed: () => Navigator.pop(context),
+            color: Colors.red,
+            radius: BorderRadius.circular(0.0),
+          ),
+        ]).show();
+  }
+
   @override
   Widget build(BuildContext context) {
     //matricula
     final registrationField = TextField(
-      obscureText: true,
+      obscureText: false,
       style: style,
+      onChanged: (String value) {
+        state['student_code'] = value;
+      },
       decoration: InputDecoration(
           contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
           hintText: "Matrícula",
-          border: OutlineInputBorder(borderRadius: BorderRadius.circular(32.0))),
+          border:
+              OutlineInputBorder(borderRadius: BorderRadius.circular(32.0))),
     );
 
     //senha
     final passwordField = TextField(
       obscureText: true,
+      onChanged: (String value) {
+        state['password'] = value;
+        print(state);
+      },
       style: style,
       decoration: InputDecoration(
           contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
           hintText: "Senha",
-          border: OutlineInputBorder(borderRadius: BorderRadius.circular(32.0))),
+          border:
+              OutlineInputBorder(borderRadius: BorderRadius.circular(32.0))),
     );
 
     //botão de login
@@ -39,14 +95,11 @@ class _LoginPageState extends State<LoginPage> {
       child: MaterialButton(
         minWidth: MediaQuery.of(context).size.width,
         padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => HomePage()),
-          );
-        },
-        child: Text("LOGIN",
-            textAlign: TextAlign.center, style: style.copyWith(color: Colors.grey, fontWeight: FontWeight.bold)),
+        onPressed: () => login(),
+        child: Text("ENTRAR",
+            textAlign: TextAlign.center,
+            style: style.copyWith(
+                color: Colors.grey, fontWeight: FontWeight.bold)),
       ),
     );
 
