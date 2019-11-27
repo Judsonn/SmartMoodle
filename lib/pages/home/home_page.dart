@@ -7,7 +7,8 @@ class HomePage extends StatefulWidget {
   _HomePageState createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin {
+class _HomePageState extends State<HomePage>
+    with SingleTickerProviderStateMixin {
   AnimationController controller;
 
   Animation animationTranslate;
@@ -17,21 +18,23 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
   @override
   void initState() {
     super.initState();
-    controller = AnimationController(duration: Duration(milliseconds: 500), vsync: this);
+    controller =
+        AnimationController(duration: Duration(milliseconds: 500), vsync: this);
 
-    animationTranslate =
-        Tween(begin: 0.0, end: 300.0).animate(CurvedAnimation(parent: controller, curve: Curves.easeOut));
+    animationTranslate = Tween(begin: 0.0, end: 300.0)
+        .animate(CurvedAnimation(parent: controller, curve: Curves.easeOut));
     animationTranslate.addListener(() {
       setState(() {});
     });
 
-    animationSize = Tween(begin: 1.0, end: 0.8).animate(CurvedAnimation(parent: controller, curve: Curves.easeOut));
+    animationSize = Tween(begin: 1.0, end: 0.8)
+        .animate(CurvedAnimation(parent: controller, curve: Curves.easeOut));
     animationSize.addListener(() {
       setState(() {});
     });
 
-    animationSizeBorder =
-        Tween(begin: 0.0, end: 10.0).animate(CurvedAnimation(parent: controller, curve: Curves.easeOut));
+    animationSizeBorder = Tween(begin: 0.0, end: 10.0)
+        .animate(CurvedAnimation(parent: controller, curve: Curves.easeOut));
     animationSizeBorder.addListener(() {
       setState(() {});
     });
@@ -55,13 +58,15 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
   Widget build(BuildContext context) {
     return Stack(
       children: <Widget>[
-        DrawerWidget(0), //widget do drawer
+        DrawerWidget(0),
         Transform.scale(
           scale: animationSize.value,
           child: Container(
-              transform: Matrix4.identity()..translate(animationTranslate.value, 0.0),
+              transform: Matrix4.identity()
+                ..translate(animationTranslate.value, 0.0),
               child: ClipRRect(
-                  borderRadius: BorderRadius.circular(animationSizeBorder.value),
+                  borderRadius:
+                      BorderRadius.circular(animationSizeBorder.value),
                   child: HomeContentPage(
                     onTap: _onTapMenu,
                   ))),

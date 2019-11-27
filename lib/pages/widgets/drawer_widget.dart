@@ -1,3 +1,5 @@
+import 'package:SmartMoodle/helpers/navigator.dart';
+import 'package:SmartMoodle/helpers/user_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:SmartMoodle/pages/activities/historic/my_activities_historic_page.dart';
 import 'package:SmartMoodle/pages/activities/open/my_activities_page.dart';
@@ -7,6 +9,8 @@ import 'package:SmartMoodle/pages/home/home_page.dart';
 
 class DrawerWidget extends StatefulWidget {
   final int menuSelecionado;
+  final String username = '1701570592';
+  final String fullname = 'GUSTAVO BITTENCOURT SATHELER';
 
   DrawerWidget(this.menuSelecionado);
 
@@ -15,7 +19,6 @@ class DrawerWidget extends StatefulWidget {
 }
 
 class _DrawerWidgetState extends State<DrawerWidget> {
-  //identifica qual item foi selecionado
   int itemSelect = 0;
 
   //cria o avatar com nome, email e imagem
@@ -33,10 +36,13 @@ class _DrawerWidgetState extends State<DrawerWidget> {
             height: 12.0,
           ),
           Text(
-            "Gustavo Girardon",
-            style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold, color: Colors.black54),
+            widget.username,
+            style: TextStyle(
+                fontSize: 18.0,
+                fontWeight: FontWeight.bold,
+                color: Colors.black54),
           ),
-          Text("ggirardon@alunos.unipampa.edu.br"),
+          Text(widget.fullname),
         ],
       ),
     );
@@ -75,7 +81,8 @@ class _DrawerWidgetState extends State<DrawerWidget> {
         }),
         Divider(),
         _tiles("SAIR", Icons.arrow_back, 3, () {
-          Navigator.popUntil(context, ModalRoute.withName('/login'));
+          UserPreferences.destroySession();
+          navigateAndClearTo(context, 'splash_screen');
         }),
       ],
     );
@@ -87,7 +94,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
     });
   }
 
-  Widget dash(BuildContext context) {
+  void dash(BuildContext context) {
     switch (itemSelect) {
       case 0:
         print('Selecionou Inicio');
@@ -130,7 +137,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
         );
         break;
       default:
-        return Text('Ocorreu um erro!');
+        print('Ocorreu um erro!');
     }
   }
 
