@@ -10,99 +10,133 @@ class MyActivitiesContentPage extends StatefulWidget {
 }
 
 class _DrawerWidgetState extends State<MyActivitiesContentPage> {
- @override
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xff75dde8),
-      appBar: PreferredSize(
-        preferredSize: Size.fromHeight(85),
-        child: Container(
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.only(bottomRight: Radius.circular(50), bottomLeft: Radius.circular(50)),
-            boxShadow: [
-              BoxShadow(
-                blurRadius: 10,
-                color: Colors.black26,
-                spreadRadius: 5
-              )
-            ]
-          ),
-          child: Column(
-            children: <Widget>[
-              SizedBox(height: 20),
-              Align(
-                alignment: Alignment.centerLeft,
-                child: IconButton(
-                  icon: Icon(Icons.menu, size: 30, color: Colors.grey),
-                  onPressed: widget.onTap,
-                ),
-              ),
-              Text("Minhas Atividades", style: TextStyle(color: Colors.grey, fontSize: 24, fontWeight: FontWeight.bold))
-            ],
-          ),
-        ),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(8),
-        child: ListView.builder(
-          itemCount: listDataTest.length,
-          scrollDirection: Axis.vertical,
-          itemBuilder: (ctx, index){
-            // return Text(listDataTest[index].title);
-            return Card(
-              shape: RoundedRectangleBorder(
+        backgroundColor: Color(0xff75dde8),
+        appBar: PreferredSize(
+          preferredSize: Size.fromHeight(85),
+          child: Container(
+            decoration: BoxDecoration(
+                color: Colors.white,
                 borderRadius: BorderRadius.only(
-                  bottomRight: Radius.circular(0),
-                  topRight: Radius.circular(0),
-                  bottomLeft: Radius.circular(8),
-                  topLeft: Radius.circular(8),
-                )
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.only(
-                        bottomRight: Radius.circular(0), 
-                        topRight: Radius.circular(0), 
-                        bottomLeft: Radius.circular(8), 
-                        topLeft: Radius.circular(8)),
-                      color: listDataTest[index].color,
-                    ),
-                    height: 120,
-                    width: 10,
+                    bottomRight: Radius.circular(50),
+                    bottomLeft: Radius.circular(50)),
+                boxShadow: [
+                  BoxShadow(
+                      blurRadius: 10, color: Colors.black26, spreadRadius: 5)
+                ]),
+            child: Column(
+              children: <Widget>[
+                SizedBox(height: 20),
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: IconButton(
+                    icon: Icon(Icons.menu, size: 30, color: Colors.grey),
+                    onPressed: widget.onTap,
                   ),
-                  Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Text(listDataTest[index].title, style: TextStyle(fontSize: 24)),
-                          Divider(),
-                          Text("Tempo restante: " + listDataTest[index].timeLeft, style: TextStyle(fontSize: 16, color: Colors.grey, fontWeight: FontWeight.bold)),
-                          Text("Peso: " + listDataTest[index].weight.toString() + "/Nota: " + listDataTest[index].evaluation.toString(), style: TextStyle(fontSize: 16, color: Colors.grey, fontWeight: FontWeight.bold)),
-                        ],
-                      ),
-                    ),
-                  )
-                ],
-              )
-            );
-          },
+                ),
+                Text("Minhas Atividades",
+                    style: TextStyle(
+                        color: Colors.grey,
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold))
+              ],
+            ),
+          ),
         ),
-      )
-    );
+        body: Padding(
+          padding: const EdgeInsets.all(8),
+          child: ListView.builder(
+            itemCount: listDataTest.length,
+            scrollDirection: Axis.vertical,
+            itemBuilder: (ctx, index) {
+              // return Text(listDataTest[index].title);
+              return Card(
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.only(
+                    bottomRight: Radius.circular(0),
+                    topRight: Radius.circular(0),
+                    bottomLeft: Radius.circular(8),
+                    topLeft: Radius.circular(8),
+                  )),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.only(
+                              bottomRight: Radius.circular(0),
+                              topRight: Radius.circular(0),
+                              bottomLeft: Radius.circular(8),
+                              topLeft: Radius.circular(8)),
+                          color: listDataTest[index].color,
+                        ),
+                        height: 120,
+                        width: 10,
+                      ),
+                      Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Text(listDataTest[index].title,
+                                  style: TextStyle(fontSize: 24)),
+                              Divider(),
+                              Text(
+                                  "Tempo restante: " +
+                                      listDataTest[index].timeLeft,
+                                  style: TextStyle(
+                                      fontSize: 16,
+                                      color: Colors.grey,
+                                      fontWeight: FontWeight.bold)),
+                              Text(
+                                  "Peso: " +
+                                      listDataTest[index].weight.toString() +
+                                      "/Nota: " +
+                                      listDataTest[index].evaluation.toString(),
+                                  style: TextStyle(
+                                      fontSize: 16,
+                                      color: Colors.grey,
+                                      fontWeight: FontWeight.bold)),
+                            ],
+                          ),
+                        ),
+                      )
+                    ],
+                  ));
+            },
+          ),
+        ));
   }
 }
 
 List<DataTest> listDataTest = [
-  DataTest(title: "RP1 - Marco I", timeLeft: "3 dias 4 horas", weight: 10, evaluation: 10, color: Colors.green),
-  DataTest(title: "Banco de Dados - Atividade I", timeLeft: "2 dias 1 hora", weight: 10, evaluation: 9, color: Colors.red),
-  DataTest(title: "Mobile- Entrega Protótipo", timeLeft: "8 horas", weight: 10, evaluation: 10, color: Colors.yellow),
-  DataTest(title: "Mobile- Entrega Diagramas", timeLeft: "8 horas", weight: 10, evaluation: 10, color: Colors.grey),
+  DataTest(
+      title: "RP1 - Marco I",
+      timeLeft: "3 dias 4 horas",
+      weight: 10,
+      evaluation: 10,
+      color: Colors.green),
+  DataTest(
+      title: "Banco de Dados - Atividade I",
+      timeLeft: "2 dias 1 hora",
+      weight: 10,
+      evaluation: 9,
+      color: Colors.red),
+  DataTest(
+      title: "Mobile- Entrega Protótipo",
+      timeLeft: "8 horas",
+      weight: 10,
+      evaluation: 10,
+      color: Colors.yellow),
+  DataTest(
+      title: "Mobile- Entrega Diagramas",
+      timeLeft: "8 horas",
+      weight: 10,
+      evaluation: 10,
+      color: Colors.grey),
 ];
 
 class DataTest {
@@ -112,5 +146,6 @@ class DataTest {
   final double evaluation;
   final Color color;
 
-  DataTest({this.title, this.timeLeft, this.weight, this.evaluation, this.color});
+  DataTest(
+      {this.title, this.timeLeft, this.weight, this.evaluation, this.color});
 }
