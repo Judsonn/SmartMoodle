@@ -1,6 +1,6 @@
 import 'package:SmartMoodle/pages/activities/new/new_activity_page.dart';
 import 'package:flutter/material.dart';
-import 'package:SmartMoodle/pages/activities/open/my_activities_page.dart';
+// import 'package:SmartMoodle/pages/activities/open/my_activities_page.dart';
 
 class HomeContentPage extends StatefulWidget {
   final Function onTap;
