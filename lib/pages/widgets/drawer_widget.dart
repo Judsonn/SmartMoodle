@@ -9,8 +9,6 @@ import 'package:SmartMoodle/pages/home/home_page.dart';
 
 class DrawerWidget extends StatefulWidget {
   final int menuSelecionado;
-  final String username = '1701570592';
-  final String fullname = 'GUSTAVO BITTENCOURT SATHELER';
 
   DrawerWidget(this.menuSelecionado);
 
@@ -20,6 +18,22 @@ class DrawerWidget extends StatefulWidget {
 
 class _DrawerWidgetState extends State<DrawerWidget> {
   int itemSelect = 0;
+  String username = 'unknown';
+  String fullname = 'unknown';
+  String avatar;
+
+  @override
+  void initState() { 
+    UserPreferences.getSession().then((userInformation){
+      print(userInformation);
+      if (userInformation.isNotEmpty) {
+        username = userInformation[4];
+        fullname = userInformation[3];
+        avatar = userInformation[7];
+      } 
+    });
+    super.initState();
+  }
 
   //cria o avatar com nome, email e imagem
   Widget _avatar() {
@@ -29,20 +43,22 @@ class _DrawerWidgetState extends State<DrawerWidget> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           CircleAvatar(
-            backgroundColor: Colors.brown.shade800,
-            child: Text('GG'),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(200),
+              child: avatar != null ? Image.network(avatar, fit: BoxFit.cover,) : Text(_getInitialsName())
+            ),
           ),
           Container(
             height: 12.0,
           ),
           Text(
-            widget.username,
+            username,
             style: TextStyle(
                 fontSize: 18.0,
                 fontWeight: FontWeight.bold,
                 color: Colors.black54),
           ),
-          Text(widget.fullname),
+          Text(fullname),
         ],
       ),
     );
@@ -153,6 +169,14 @@ class _DrawerWidgetState extends State<DrawerWidget> {
         style: TextStyle(fontWeight: FontWeight.bold),
       ),
     );
+  }
+
+  String _getInitialsName(){
+    List<String> separatedFullName = fullname.trim().split(" ");
+    print(separatedFullName);
+    return separatedFullName.length > 0 
+          ? separatedFullName[0].substring(0,1) + separatedFullName[separatedFullName.length - 1].substring(0,1) 
+          : fullname.substring(0, 1);
   }
 
   @override

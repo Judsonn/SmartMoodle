@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:http/http.dart';
+// import 'package:http/http.dart';
 import 'package:http/http.dart' as http;
 import 'package:connectivity/connectivity.dart';
 
@@ -17,7 +17,8 @@ class MoodleAPI {
           '?username=$studentCode&password=$password&service=moodle_mobile_app';
       String requestURL = baseURL + endpoint + query;
 
-      Response response = await http.get(requestURL);
+      var response = await http.get(requestURL);
+      print("moodleAPI/userData/response -> " + response.body);
       return jsonDecode(response.body);
     }
   }
@@ -30,7 +31,8 @@ class MoodleAPI {
       String query = '?wstoken=$token&moodlewsrestformat=json&wsfunction=core_webservice_get_site_info';
       String requestURL = baseURL + endpoint + query;
 
-      Response response = await http.get(requestURL);
+      var response = await http.get(requestURL);
+      print("moodleAPI/userData/response -> " + response.body);
       return jsonDecode(response.body);
     }
   }
