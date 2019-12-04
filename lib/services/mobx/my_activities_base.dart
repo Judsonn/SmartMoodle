@@ -23,7 +23,9 @@ abstract class MyActivitiesBase with Store {
   }
 
   @action
-  setNotification() async {}
+  setNotification(int timestart) async {
+    // INSERIR A NOTIFICAÇÃO
+  }
 
   initialNotificationConfig() {}
 }

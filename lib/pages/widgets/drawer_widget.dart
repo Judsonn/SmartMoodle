@@ -23,16 +23,19 @@ class _DrawerWidgetState extends State<DrawerWidget> {
   String avatar;
 
   @override
-  void initState() { 
-    UserPreferences.getSession().then((userInformation){
-      print(userInformation);
-      if (userInformation.isNotEmpty) {
-        username = userInformation[4];
-        fullname = userInformation[3];
-        avatar = userInformation[7];
-      } 
-    });
+  void initState() {
+    loadUserInformations();
     super.initState();
+  }
+
+  void loadUserInformations() async {
+    List<String> userInformation = await UserPreferences.getSession();
+
+    if (userInformation.isNotEmpty) {
+      username = userInformation[4];
+      fullname = userInformation[3];
+      avatar = userInformation[7];
+    }
   }
 
   //cria o avatar com nome, email e imagem
@@ -44,9 +47,13 @@ class _DrawerWidgetState extends State<DrawerWidget> {
         children: <Widget>[
           CircleAvatar(
             child: ClipRRect(
-              borderRadius: BorderRadius.circular(200),
-              child: avatar != null ? Image.network(avatar, fit: BoxFit.cover,) : Text(_getInitialsName())
-            ),
+                borderRadius: BorderRadius.circular(200),
+                child: avatar != null
+                    ? Image.network(
+                        avatar,
+                        fit: BoxFit.cover,
+                      )
+                    : Text(_getInitialsName())),
           ),
           Container(
             height: 12.0,
@@ -54,9 +61,9 @@ class _DrawerWidgetState extends State<DrawerWidget> {
           Text(
             username,
             style: TextStyle(
-              fontSize: 18.0,
-              fontWeight: FontWeight.bold,
-              color: Colors.black54),
+                fontSize: 18.0,
+                fontWeight: FontWeight.bold,
+                color: Colors.black54),
           ),
           Text(fullname),
         ],
@@ -171,12 +178,13 @@ class _DrawerWidgetState extends State<DrawerWidget> {
     );
   }
 
-  String _getInitialsName(){
+  String _getInitialsName() {
     List<String> separatedFullName = fullname.trim().split(" ");
     print(separatedFullName);
-    return separatedFullName.length > 0 
-          ? separatedFullName[0].substring(0,1) + separatedFullName[separatedFullName.length - 1].substring(0,1) 
-          : fullname.substring(0, 1);
+    return separatedFullName.length > 0
+        ? separatedFullName[0].substring(0, 1) +
+            separatedFullName[separatedFullName.length - 1].substring(0, 1)
+        : fullname.substring(0, 1);
   }
 
   @override

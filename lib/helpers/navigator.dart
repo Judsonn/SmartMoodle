@@ -1,3 +1,8 @@
+import 'package:SmartMoodle/helpers/user_preferences.dart';
+import 'package:SmartMoodle/pages/activities/historic/my_activities_historic_page.dart';
+import 'package:SmartMoodle/pages/activities/open/my_activities_page.dart';
+import 'package:SmartMoodle/pages/evaluations/historic/my_evaluations_historic_page.dart';
+import 'package:SmartMoodle/pages/evaluations/open/my_evaluations_page.dart';
 import 'package:SmartMoodle/pages/home/home_page.dart';
 import 'package:SmartMoodle/pages/login/login_page.dart';
 import 'package:SmartMoodle/pages/splash/splash_screen.dart';
@@ -20,6 +25,14 @@ Map<String, WidgetBuilder> appRoutes() {
   return {
     "splash_screen": (context) => SplashScreen(),
     "login": (context) => LoginPage(),
-    "home": (context) => HomePage()
+    "home": (context) => HomePage(),
+    "logout": (context) { 
+      UserPreferences.destroySession();
+      return SplashScreen();
+      },
+    "activities_actives": (context) => MyActivitiesPage(),
+    "activities_history": (context) => MyActivitiesHistoricPage(),
+    "my_evaluations": (context) => MyEvaluationsPage(),
+    "evaluations_history": (context) => MyEvaluationsHistoricPage(),
   };
 }
