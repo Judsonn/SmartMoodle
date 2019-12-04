@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:SmartMoodle/models/Activity.dart';
 
 class MyActivitiesContentPage extends StatefulWidget {
   final Function onTap;
@@ -10,6 +11,23 @@ class MyActivitiesContentPage extends StatefulWidget {
 }
 
 class _DrawerWidgetState extends State<MyActivitiesContentPage> {
+
+  ActivityProvider provider = new ActivityProvider();
+  Activity acti = new Activity();
+
+  getCount() async{
+    int count = await provider.count();
+    return count;
+    // List<Map> list = await provider.getAllActivities();
+    // int nu = list.length;
+    // return nu;
+  }
+
+  getActivity(id) async {
+    Activity ac = await provider.getActivity(id);
+    return ac;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -48,9 +66,10 @@ class _DrawerWidgetState extends State<MyActivitiesContentPage> {
         body: Padding(
           padding: const EdgeInsets.all(8),
           child: ListView.builder(
-            itemCount: listDataTest.length,
+            itemCount: getCount(),
             scrollDirection: Axis.vertical,
             itemBuilder: (ctx, index) {
+              Activity ac = getActivity(index);
               // return Text(listDataTest[index].title);
               return Card(
                   shape: RoundedRectangleBorder(
@@ -70,7 +89,7 @@ class _DrawerWidgetState extends State<MyActivitiesContentPage> {
                               topRight: Radius.circular(0),
                               bottomLeft: Radius.circular(8),
                               topLeft: Radius.circular(8)),
-                          color: listDataTest[index].color,
+                          // color: listDataTest[index].color,
                         ),
                         height: 120,
                         width: 10,
@@ -81,21 +100,21 @@ class _DrawerWidgetState extends State<MyActivitiesContentPage> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
-                              Text(listDataTest[index].title,
+                              Text(ac.act_name,
                                   style: TextStyle(fontSize: 24)),
                               Divider(),
                               Text(
                                   "Tempo restante: " +
-                                      listDataTest[index].timeLeft,
+                                      ac.act_hours.toString(),
                                   style: TextStyle(
                                       fontSize: 16,
                                       color: Colors.grey,
                                       fontWeight: FontWeight.bold)),
                               Text(
                                   "Peso: " +
-                                      listDataTest[index].weight.toString() +
-                                      "/Nota: " +
-                                      listDataTest[index].evaluation.toString(),
+                                      ac.act_weight.toString() +
+                                      "/Nota: ",
+                                      // ac.act_score.toString(),
                                   style: TextStyle(
                                       fontSize: 16,
                                       color: Colors.grey,
@@ -112,40 +131,3 @@ class _DrawerWidgetState extends State<MyActivitiesContentPage> {
   }
 }
 
-List<DataTest> listDataTest = [
-  DataTest(
-      title: "RP1 - Marco I",
-      timeLeft: "3 dias 4 horas",
-      weight: 10,
-      evaluation: 10,
-      color: Colors.green),
-  DataTest(
-      title: "Banco de Dados - Atividade I",
-      timeLeft: "2 dias 1 hora",
-      weight: 10,
-      evaluation: 9,
-      color: Colors.red),
-  DataTest(
-      title: "Mobile- Entrega Protótipo",
-      timeLeft: "8 horas",
-      weight: 10,
-      evaluation: 10,
-      color: Colors.yellow),
-  DataTest(
-      title: "Mobile- Entrega Diagramas",
-      timeLeft: "8 horas",
-      weight: 10,
-      evaluation: 10,
-      color: Colors.grey),
-];
-
-class DataTest {
-  final String title;
-  final String timeLeft;
-  final int weight;
-  final double evaluation;
-  final Color color;
-
-  DataTest(
-      {this.title, this.timeLeft, this.weight, this.evaluation, this.color});
-}

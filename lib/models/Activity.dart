@@ -89,7 +89,7 @@ class Activity {
     hours = map[columnHours];
   }
 
-  num calc_priority(num difficulty, num weight, num knowledge, num hours) {
+  num calcPriority(num difficulty, num weight, num knowledge, num hours) {
     num priority = ((knowledge * 0.01) / difficulty) * weight;
     priority = priority * hours;
     return priority;
@@ -112,17 +112,29 @@ class ActivityProvider {
 create table $tableActivity ( 
   $columnId integer primary key autoincrement, 
   $columnName text not null,
-  $columnDifficulty float not null)
-  $columnWeight float not null,
-  $columnKnowledge float not null,
-  $columnHours float not null,
+  $columnDifficulty integer not null,
+  $columnWeight double not null,
+  $columnKnowledge integer not null,
+  $columnHours integer not null)
 ''');
     });
+    print(db);
   }
 
   Future<Activity> insert(Activity acti) async {
     acti.id = await db.insert(tableActivity, acti.toMap());
     return acti;
+  }
+
+  Future<int> count() async {
+    int count = Sqflite.firstIntValue(await db.rawQuery('SELECT COUNT(*) FROM activity;'));
+    return count;
+  }
+  
+  Future<List<Map>> getAllActivities() async {
+
+    List<Map> list = await db.rawQuery('SELECT * FROM activity');
+    return list;
   }
 
   Future<Activity> getActivity(int id) async {
