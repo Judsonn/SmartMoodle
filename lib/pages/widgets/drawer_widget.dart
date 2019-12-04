@@ -54,9 +54,9 @@ class _DrawerWidgetState extends State<DrawerWidget> {
           Text(
             username,
             style: TextStyle(
-                fontSize: 18.0,
-                fontWeight: FontWeight.bold,
-                color: Colors.black54),
+              fontSize: 18.0,
+              fontWeight: FontWeight.bold,
+              color: Colors.black54),
           ),
           Text(fullname),
         ],

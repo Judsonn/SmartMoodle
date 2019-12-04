@@ -36,4 +36,18 @@ class MoodleAPI {
       return jsonDecode(response.body);
     }
   }
+  
+  Future<dynamic> userActivities(String token) async {
+    ConnectivityResult connectivityStatus = await (Connectivity().checkConnectivity());
+
+    if (connectivityStatus != ConnectivityResult.none) {
+      String endpoint = '/webservice/rest/server.php';
+      String query = '?wstoken=$token&moodlewsrestformat=json&wsfunction=core_calendar_get_calendar_upcoming_view';
+      String requestURL = baseURL + endpoint + query;
+
+      var response = await http.get(requestURL);
+      print("moodleAPI/userActivities/response -> " + response.body);
+      return jsonDecode(response.body);
+    }
+  }
 }

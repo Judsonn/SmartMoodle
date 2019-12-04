@@ -18,12 +18,15 @@ dependencies:
   rflutter_alert: ^1.0.3
   flutter_form_builder:
   sqflite: ^1.1.7+3
-
+  mobx: 0.3.9+3
+  flutter_mobx:
+  flutter_local_notifications: ^0.8.4+3
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-
+  mobx_codegen: 0.3.10+1
+  build_runner:
 flutter:
   uses-material-design: true
 
