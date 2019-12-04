@@ -1,5 +1,7 @@
 import 'package:SmartMoodle/helpers/utils.dart';
+import 'package:SmartMoodle/models/DatabaseActivityModel.dart';
 import 'package:SmartMoodle/models/UserActivities.dart' as mod;
+import 'package:SmartMoodle/services/database.dart';
 import 'package:SmartMoodle/services/mobx/my_activities_base.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -16,11 +18,18 @@ class MyActivitiesContentPage extends StatefulWidget {
 
 class _DrawerWidgetState extends State<MyActivitiesContentPage> {
   MyActivities _myActivitiesBase;
+  List<DataBaseActitivyModel> _dataBaseActitivyModel = [];
   int _radioValue = -1;
 
   @override
   void initState() {
     _myActivitiesBase = MyActivities();
+    DatabaseServices.db.getAllActivities().then((onValue) {
+      if (onValue != null && onValue.isNotEmpty) {
+        _dataBaseActitivyModel = onValue;
+        print(_dataBaseActitivyModel.toString());
+      }
+    });
     super.initState();
     _myActivitiesBase.getUserAtivities();
   }
@@ -84,6 +93,11 @@ class _DrawerWidgetState extends State<MyActivitiesContentPage> {
                     scrollDirection: Axis.vertical,
                     itemBuilder: (ctx, index) {
                       mod.Events current = events[index];
+                      DataBaseActitivyModel data = DataBaseActitivyModel(
+                        title: events[index].name,
+                        coursename: events[index].course.fullname,
+                        timestart: events[index].timestart,
+                      );
                       // return Text(listDataTest[index].title);
                       return Material(
                         color: Colors.transparent,
@@ -153,7 +167,14 @@ class _DrawerWidgetState extends State<MyActivitiesContentPage> {
                                   DialogButton(
                                     child: Text("Confirmar",
                                         style: TextStyle(color: Colors.white)),
-                                    onPressed: () {},
+                                    onPressed: () async {
+                                      _dataBaseActitivyModel[index].priority =
+                                          _radioValue;
+                                      await _myActivitiesBase.setSaveLocalData(
+                                          _dataBaseActitivyModel[index]);
+                                      await _myActivitiesBase
+                                          .getUserAtivities();
+                                    },
                                   ),
                                 ]).show();
                           },
@@ -176,7 +197,9 @@ class _DrawerWidgetState extends State<MyActivitiesContentPage> {
                                           topRight: Radius.circular(0),
                                           bottomLeft: Radius.circular(8),
                                           topLeft: Radius.circular(8)),
-                                      color: Colors.green,
+                                      color: _getColorByPriority(
+                                          _dataBaseActitivyModel[index]
+                                              .priority),
                                     ),
                                     height: 200,
                                     width: 10,
@@ -222,5 +245,21 @@ class _DrawerWidgetState extends State<MyActivitiesContentPage> {
         ),
       ),
     );
+  }
+
+  _getColorByPriority(int priority) {
+    switch (priority) {
+      case 1:
+        return Colors.orange;
+        break;
+      case 2:
+        return Colors.yellow[600];
+        break;
+      case 3:
+        return Colors.red[600];
+        break;
+      default:
+        return Colors.grey;
+    }
   }
 }

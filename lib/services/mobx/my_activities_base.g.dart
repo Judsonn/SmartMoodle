@@ -32,4 +32,21 @@ mixin _$MyActivities on MyActivitiesBase, Store {
   Future getUserAtivities() {
     return _$getUserAtivitiesAsyncAction.run(() => super.getUserAtivities());
   }
+
+  final _$setSaveLocalDataAsyncAction = AsyncAction('setSaveLocalData');
+
+  @override
+  Future setSaveLocalData(DataBaseActitivyModel activities) {
+    return _$setSaveLocalDataAsyncAction
+        .run(() => super.setSaveLocalData(activities));
+  }
+
+  final _$scheduleNotificationAsyncAction = AsyncAction('scheduleNotification');
+
+  @override
+  Future scheduleNotification(String title,
+      [int difficulty = 1, num weight = 1, num knowledge = 1, num hours = 1]) {
+    return _$scheduleNotificationAsyncAction.run(() => super
+        .scheduleNotification(title, difficulty, weight, knowledge, hours));
+  }
 }

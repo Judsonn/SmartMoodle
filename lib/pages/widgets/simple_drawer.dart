@@ -16,15 +16,17 @@ class _SimpleDrawerState extends State<SimpleDrawer> {
 
   @override
   void initState() {
-    UserPreferences.getSession().then((userInformation) {
-      if (userInformation.isNotEmpty) {
-        username = userInformation[4];
-        fullname = userInformation[3];
-        avatar = userInformation[7];
-      }
-    });
-
     super.initState();
+  }
+
+  Future<List<String>> _getUserData() async {
+    List<String> values = await UserPreferences.getSession();
+    if (values.isNotEmpty) {
+      username = values[4];
+      fullname = values[3];
+      avatar = values[7];
+      return [username, fullname, avatar];
+    }
   }
 
   @override
@@ -33,18 +35,28 @@ class _SimpleDrawerState extends State<SimpleDrawer> {
       child: ListView(
         padding: EdgeInsets.zero,
         children: <Widget>[
-          UserAccountsDrawerHeader(
-            accountName: Text("$username"),
-            accountEmail: Text("$fullname"),
-            currentAccountPicture: CircleAvatar(
-                backgroundColor:
-                    Theme.of(context).platform == TargetPlatform.iOS
-                        ? Colors.blue
-                        : Colors.white,
-                child: avatar != null
-                    ? Image.network(avatar)
-                    : Text(_getInitialsName())),
-          ),
+          FutureBuilder<List<String>>(
+              future: _getUserData(),
+              builder: (context, snapshot) {
+                return UserAccountsDrawerHeader(
+                  accountName: snapshot.data != null
+                      ? Text(snapshot.data[0])
+                      : Text("$username"),
+                  accountEmail: snapshot.data != null
+                      ? Text(snapshot.data[1])
+                      : Text("$fullname"),
+                  currentAccountPicture: ClipRect(
+                    child: CircleAvatar(
+                        backgroundColor:
+                            Theme.of(context).platform == TargetPlatform.iOS
+                                ? Colors.blue
+                                : Colors.white,
+                        child: avatar != null
+                            ? Image.network(avatar)
+                            : Text(_getInitialsName())),
+                  ),
+                );
+              }),
           ..._listItems()
         ],
       ),
@@ -63,17 +75,18 @@ class _SimpleDrawerState extends State<SimpleDrawer> {
     return [
       _item('INÍCIO', 'home', Icons.home),
       _item('MINHAS ATIVIDADES', 'activities_actives', Icons.list),
-      _item('ATIVIDADES REALIZADAS', 'activities_history', Icons.playlist_add_check),
+      _item('ATIVIDADES REALIZADAS', 'activities_history',
+          Icons.playlist_add_check),
       _item('MINHAS PROVAS', 'my_evaluations', Icons.bookmark),
-      _item('MINHAS PROVAS REALIZADAS', 'evaluations_history', Icons.library_books),
-       Divider(),
+      _item('MINHAS PROVAS REALIZADAS', 'evaluations_history',
+          Icons.library_books),
+      Divider(),
       _item('SAIR', 'logout', Icons.arrow_back),
     ];
   }
 
   ListTile _item(String text, String route, [IconData icon = Icons.grade]) {
     return ListTile(
-      
       title: Row(children: <Widget>[
         Icon(icon),
         Padding(
