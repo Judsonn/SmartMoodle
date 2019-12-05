@@ -62,4 +62,10 @@ class DatabaseServices {
     final db = await database;
     db.rawDelete("Delete * from activities");
   }
+
+  insertByLot(List<DataBaseActitivyModel> lot) async {
+    for (var item in lot) {
+      await insertActivity(item);
+    }
+  }
 }

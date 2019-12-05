@@ -33,7 +33,7 @@ class _DrawerWidgetState extends State<MyActivitiesContentPage> {
       }
     });
 
-var initializationSettingsAndroid =
+    var initializationSettingsAndroid =
         AndroidInitializationSettings('app_icon');
     var initializationSettingsIOS = IOSInitializationSettings(
         onDidReceiveLocalNotification: onDidReceiveLocalNotification);
