@@ -4,19 +4,28 @@ description: Aplicativo para auxiliar usuários do moodle através de tecnologua
 version: 1.0.0+1
 
 environment:
-  sdk: ">=2.1.0 <3.0.0"
+  sdk: ">=2.2.2 <3.0.0"
 
 dependencies:
   flutter:
     sdk: flutter
-  firebase_core: ^0.4.0+9
-  cloud_firestore: ^0.12.9+6
+  flutter_launcher_icons: ^0.7.4
   cupertino_icons: ^0.1.2
+  connectivity: ^0.4.5+6
+  http: ^0.12.0+2
+  shared_preferences: ^0.5.4+6 
+  rflutter_alert: ^1.0.3
+  flutter_form_builder:
+  sqflite: ^1.1.7+3
+  mobx: 0.3.9+3
+  flutter_mobx: ^0.3.3+3
+  flutter_local_notifications: ^0.8.4+3 
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-
+  mobx_codegen: 0.3.10+1
+  build_runner:
 flutter:
   uses-material-design: true
 
@@ -25,6 +34,6 @@ flutter:
     - assets/imgs/
 
 flutter_icons:
-  android: true
+  android: "launcher_icon" 
   ios: true
   image_path: "assets/icons/logo_icon.png"

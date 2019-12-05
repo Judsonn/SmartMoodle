@@ -1,0 +1,32 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+int main(void)
+{
+    float nota1, nota2, nota3, nota4, nota5, peso1, peso2, peso3,peso4, peso5, media;
+    printf("Programa: Media Notas. \n\n");
+    printf("Insira o valor da primeira nota: ");
+    scanf("%f", &nota1);
+    printf("Insira o peso da primeira nota: ");
+    scanf("%f", &peso1);
+    printf("Insira o valor da segunda nota: ");
+    scanf("%f", &nota2);
+    printf("Insira o peso da segunda nota: ");
+    scanf("%f", &peso2);
+    printf("Insira o valor da terceira nota: ");
+    scanf("%f", &nota3);
+    printf("Insira o peso da terceira nota: ");
+    scanf("%f", &peso3);
+    printf("Insira o valor da quarta nota: ");
+    scanf("%f", &nota4);
+    printf("Insira o peso da quarta nota: ");
+    scanf("%f", &peso4);
+    printf("Insira o valor da quinta nota: ");
+    scanf("%f", &nota5);
+    printf("Insira o peso da quinta nota: ");
+    scanf("%f", &peso5);
+    media = (nota1*peso1 + nota2*peso2 + nota3*peso3 + nota4*peso4 + nota5*peso5)/(peso1+peso2+peso3+peso4+peso5);
+    printf("A sua media e: %.2f \n\n", media);
+
+    return 0;
+}

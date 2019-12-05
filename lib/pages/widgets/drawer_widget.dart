@@ -1,3 +1,5 @@
+import 'package:SmartMoodle/helpers/navigator.dart';
+import 'package:SmartMoodle/helpers/user_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:SmartMoodle/pages/activities/historic/my_activities_historic_page.dart';
 import 'package:SmartMoodle/pages/activities/open/my_activities_page.dart';
@@ -15,8 +17,26 @@ class DrawerWidget extends StatefulWidget {
 }
 
 class _DrawerWidgetState extends State<DrawerWidget> {
-  //identifica qual item foi selecionado
   int itemSelect = 0;
+  String username = 'unknown';
+  String fullname = 'unknown';
+  String avatar;
+
+  @override
+  void initState() {
+    loadUserInformations();
+    super.initState();
+  }
+
+  void loadUserInformations() async {
+    List<String> userInformation = await UserPreferences.getSession();
+
+    if (userInformation.isNotEmpty) {
+      username = userInformation[4];
+      fullname = userInformation[3];
+      avatar = userInformation[7];
+    }
+  }
 
   //cria o avatar com nome, email e imagem
   Widget _avatar() {
@@ -26,17 +46,26 @@ class _DrawerWidgetState extends State<DrawerWidget> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           CircleAvatar(
-            backgroundColor: Colors.brown.shade800,
-            child: Text('GG'),
+            child: ClipRRect(
+                borderRadius: BorderRadius.circular(200),
+                child: avatar != null
+                    ? Image.network(
+                        avatar,
+                        fit: BoxFit.cover,
+                      )
+                    : Text(_getInitialsName())),
           ),
           Container(
             height: 12.0,
           ),
           Text(
-            "Gustavo Girardon",
-            style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold, color: Colors.black54),
+            username,
+            style: TextStyle(
+                fontSize: 18.0,
+                fontWeight: FontWeight.bold,
+                color: Colors.black54),
           ),
-          Text("ggirardon@alunos.unipampa.edu.br"),
+          Text(fullname),
         ],
       ),
     );
@@ -75,7 +104,8 @@ class _DrawerWidgetState extends State<DrawerWidget> {
         }),
         Divider(),
         _tiles("SAIR", Icons.arrow_back, 3, () {
-          Navigator.popUntil(context, ModalRoute.withName('/login'));
+          UserPreferences.destroySession();
+          navigateAndClearTo(context, 'splash_screen');
         }),
       ],
     );
@@ -87,7 +117,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
     });
   }
 
-  Widget dash(BuildContext context) {
+  void dash(BuildContext context) {
     switch (itemSelect) {
       case 0:
         print('Selecionou Inicio');
@@ -130,7 +160,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
         );
         break;
       default:
-        return Text('Ocorreu um erro!');
+        print('Ocorreu um erro!');
     }
   }
 
@@ -146,6 +176,15 @@ class _DrawerWidgetState extends State<DrawerWidget> {
         style: TextStyle(fontWeight: FontWeight.bold),
       ),
     );
+  }
+
+  String _getInitialsName() {
+    List<String> separatedFullName = fullname.trim().split(" ");
+    print(separatedFullName);
+    return separatedFullName.length > 0
+        ? separatedFullName[0].substring(0, 1) +
+            separatedFullName[separatedFullName.length - 1].substring(0, 1)
+        : fullname.substring(0, 1);
   }
 
   @override

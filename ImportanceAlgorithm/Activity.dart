@@ -1,23 +1,32 @@
 
 class Activity {
-  double importance;
-  double percentage;
+  double difficulty;
+  double weight;
+  double knowledge;
   double hours;
 
-  double get act_impor{
-    return importance;
+  double get act_difficulty{
+    return difficulty;
   }
 
-  void set act_impor(double importance){
-    this.importance = importance;
+  void set act_difficulty(double difficulty){
+    this.difficulty = difficulty;
   }
 
-  double get act_perce{
-    return percentage;
+  double get act_weight{
+    return weight;
   }
 
-  void set act_perce(double percentage){
-    this.percentage = percentage;
+  void set act_weight(double weight){
+    this.weight = weight;
+  }
+
+  double get act_knowledge{
+    return knowledge;
+  }
+
+  void set act_knowledge(double knowledge){
+    this.knowledge = knowledge;
   }
 
   double get act_hours {
@@ -28,15 +37,15 @@ class Activity {
     this.hours = hours;
   }
 
-  double calc_priority(double importance, double percentage, double hours){
-    double priority = (percentage * 0.01) / importance;
+  double calc_priority(double difficulty, double weight, double knowledge, double hours){
+    double priority = ((knowledge * 0.01) / difficulty) * weight;
     priority = priority * hours;
     return priority;
   }
 }
 
-main(double importance, double percentage, double hours) {
+main(double difficulty, double weight, double knowledge, double hours) {
   Activity act = new Activity();
-  double priori = act.calc_priority(importance, percentage, hours);
+  double priori = act.calc_priority(difficulty, weight, knowledge, hours);
   print(priori);
 }

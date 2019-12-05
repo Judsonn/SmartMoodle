@@ -1,12 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:SmartMoodle/pages/login/login_page.dart';
 import 'package:SmartMoodle/pages/splash/splash_screen.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
-void main() => runApp(MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: SplashScreen(),
-      routes: <String, WidgetBuilder>{
-        "/ImageSplashScreen": (context) => SplashScreen(),
-        "/login": (context) => LoginPage()
-      },
-    ));
+import 'helpers/navigator.dart';
+
+FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
+
+Widget app = MaterialApp(
+  debugShowCheckedModeBanner: false,
+  home: SplashScreen(),
+  title: 'Smart Moodle',
+  routes: appRoutes(),
+);
+
+void main() {
+  flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+  runApp(app);
+}
