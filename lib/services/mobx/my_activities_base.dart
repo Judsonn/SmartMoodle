@@ -10,6 +10,9 @@ import 'package:mobx/mobx.dart';
 
 part 'my_activities_base.g.dart';
 
+FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+    FlutterLocalNotificationsPlugin();
+
 class MyActivities = MyActivitiesBase with _$MyActivities;
 
 abstract class MyActivitiesBase with Store {
@@ -31,11 +34,6 @@ abstract class MyActivitiesBase with Store {
     DatabaseServices.db.insertActivity(activities);
   }
 
-// tem que configurar outras coisas no android manifest!!!
-// DIFICULTY = PRIORITY
-// COLOQUEI O TITULO DA ATIVIDADE OBRIGATÓRIA!!
-// E OPCIONAL O RESTO, QUANDO CHAMAR ESSA FUNÇÃO, JÁ SABE :)
-
   @action
   scheduleNotification(String title,
       [int difficulty = 1,
@@ -45,7 +43,13 @@ abstract class MyActivitiesBase with Store {
     num priority = ((knowledge * 0.01) / difficulty) * weight;
     priority = priority * hours;
 
-    int timeLeft = (DateTime.now()).millisecondsSinceEpoch + 114000;
+    // int timeLeft = (DateTime.now()).millisecondsSinceEpoch + 114000;
+    // int timeLeft = 114000;
+
+    if (flutterLocalNotificationsPlugin == null) {
+      print('entrou');
+    }
+    int timeLeft = 114000;
     var scheduledNotificationDateTime =
         DateTime.now().add(Duration(milliseconds: timeLeft));
 
@@ -63,13 +67,14 @@ abstract class MyActivitiesBase with Store {
         IOSNotificationDetails(sound: "slow_spring_board.aiff");
     var platformChannelSpecifics = NotificationDetails(
         androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics);
-      await flutterLocalNotificationsPlugin.schedule(
-          0,
-          'Ta na hora de realizar uma atividade',
-          'Indicamos para você realizar a $title a partir de agora.',
-          scheduledNotificationDateTime,
-          platformChannelSpecifics);
-    }
+    await flutterLocalNotificationsPlugin.schedule(
+        0,
+        '$title',
+        'Indicamos para você realizar esta atividade a partir de agora.',
+        scheduledNotificationDateTime,
+        platformChannelSpecifics);
+
+        print('entrou na notificação');
   }
 }
 

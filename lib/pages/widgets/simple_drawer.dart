@@ -22,7 +22,7 @@ class _SimpleDrawerState extends State<SimpleDrawer> {
   Future<List<String>> _getUserData() async {
     List<String> values = await UserPreferences.getSession();
     if (values.isNotEmpty) {
-      username = values[4];
+      username = values[2];
       fullname = values[3];
       avatar = values[7];
       return [username, fullname, avatar];

@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:SmartMoodle/pages/splash/splash_screen.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 import 'helpers/navigator.dart';
+
+FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
 
 Widget app = MaterialApp(
   debugShowCheckedModeBanner: false,
@@ -10,4 +13,7 @@ Widget app = MaterialApp(
   routes: appRoutes(),
 );
 
-void main() => runApp(app);
+void main() {
+  flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+  runApp(app);
+}
