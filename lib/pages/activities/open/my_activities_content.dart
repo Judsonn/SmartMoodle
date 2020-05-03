@@ -1,6 +1,7 @@
 import 'package:SmartMoodle/helpers/utils.dart';
 import 'package:SmartMoodle/models/DatabaseActivityModel.dart';
 import 'package:SmartMoodle/models/UserActivities.dart' as mod;
+import 'package:SmartMoodle/pages/activities/new/new_activity_page.dart';
 import 'package:SmartMoodle/services/database.dart';
 import 'package:SmartMoodle/services/mobx/my_activities_base.dart';
 import 'package:flutter/cupertino.dart';
@@ -272,6 +273,14 @@ class _DrawerWidgetState extends State<MyActivitiesContentPage> {
             }),
           ),
         ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => NewActivityPage()),
+        ), 
+        child: Icon(Icons.add, color: Color(0xff75dde8)),
+        backgroundColor: Colors.white,
       ),
     );
   }

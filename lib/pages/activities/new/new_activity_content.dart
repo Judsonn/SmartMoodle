@@ -41,8 +41,8 @@ class _DrawerWidgetState extends State<NewActivityContentPage> {
               Align(
                 alignment: Alignment.centerLeft,
                 child: IconButton(
-                  icon: Icon(Icons.menu, size: 30, color: Colors.grey),
-                  onPressed: widget.onTap,
+                  icon: Icon(Icons.arrow_back, size: 30, color: Colors.grey),
+                  onPressed: () => Navigator.pop(context),
                 ),
               ),
               Text("Nova Atividade",
