@@ -74,8 +74,8 @@ class _DrawerWidgetState extends State<MyActivitiesContentPage> {
               Align(
                 alignment: Alignment.centerLeft,
                 child: IconButton(
-                  icon: Icon(Icons.menu, size: 30, color: Colors.grey),
-                  onPressed: widget.onTap,
+                  icon: Icon(Icons.arrow_back, size: 30, color: Colors.grey),
+                  onPressed: () => Navigator.pop(context),
                 ),
               ),
               Text("Minhas Atividades",
@@ -100,6 +100,21 @@ class _DrawerWidgetState extends State<MyActivitiesContentPage> {
               } else {
                 List<mod.Events> events =
                     _myActivitiesBase.userActivities.events;
+
+                if (events.isEmpty){
+                  return Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Icon(Icons.content_copy, size: 60, color: Colors.white,),
+                        SizedBox(height: 30),
+                        Text("Nenhuma atividade encontrada", style: TextStyle(
+                          color: Colors.white, fontSize: 28, fontWeight: FontWeight.bold
+                        ), textAlign: TextAlign.center,),
+                      ],
+                    ),
+                  );
+                }
                 return ListView.builder(
                     itemCount: events.length,
                     scrollDirection: Axis.vertical,
