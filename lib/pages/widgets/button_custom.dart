@@ -4,8 +4,9 @@ class ButtonCustom extends StatelessWidget {
   final String title;
   final IconData iconData;
   final Function onPressed;
+  final bool reverseColor;
 
-  const ButtonCustom({Key key, @required this.title, this.iconData, this.onPressed}) : super(key: key);
+  const ButtonCustom({Key key, @required this.title, this.iconData, this.onPressed, this.reverseColor = false}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +15,7 @@ class ButtonCustom extends StatelessWidget {
       width: double.maxFinite,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
-        color: Color(0xff75dde8),
+        color: reverseColor? Colors.white : Color(0xff75dde8),
         boxShadow: [
           BoxShadow(
             blurRadius: 15,
@@ -38,7 +39,7 @@ class ButtonCustom extends StatelessWidget {
               SizedBox(width: 20),
               Expanded(
                 child: Text(title, style: TextStyle(
-                  color: Colors.white,
+                  color: reverseColor? Color(0xff75dde8) : Colors.white,
                   fontWeight: FontWeight.bold,
                   fontSize: 22
                 )),
@@ -53,7 +54,7 @@ class ButtonCustom extends StatelessWidget {
                     width: 1
                   )
                 ),
-                child: Icon(iconData, color: Colors.white)
+                child: Icon(iconData, color: reverseColor? Color(0xff75dde8) : Colors.white)
               )
             ],
           ),

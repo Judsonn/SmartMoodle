@@ -1,4 +1,5 @@
 import 'dart:ffi';
+import 'package:SmartMoodle/pages/widgets/button_custom.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -59,77 +60,84 @@ class _DrawerWidgetState extends State<NewActivityContentPage> {
           key: this._formKey,
           child: Padding(
             padding: const EdgeInsets.all(32.0),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                Text('Informe o nome da atividade:'),
-                TextFormField(
-                  autovalidate: false,
-                  onSaved: (name) => acti.act_name = name,
-                  validator: (name) {
-                    if (name.length < 5) {
-                      return 'Nome deve ter mais de 5 caracteres';
-                    }
-                    return name;
-                  },
-                ),
-                Text('Qual a DIFICULDADE da atividade?'),
-                new TextFormField(
-                  decoration:
-                      new InputDecoration(labelText: "Porcentagem (0 - 100)"),
-                  keyboardType: TextInputType.number,
-                  inputFormatters: <TextInputFormatter>[
-                    WhitelistingTextInputFormatter.digitsOnly
-                  ], // Only numbers can be entered
-                  onSaved: (difficulty) => acti.act_difficulty = difficulty as num,
-                ),
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  Text('Informe o nome da atividade:'),
+                  TextFormField(
+                    autovalidate: false,
+                    onSaved: (name) => acti.act_name = name,
+                    validator: (name) {
+                      if (name.length < 5) {
+                        return 'Nome deve ter mais de 5 caracteres';
+                      }
+                      return null;
+                    },
+                  ),
+                  Text('Qual a DIFICULDADE da atividade?'),
+                  new TextFormField(
+                    decoration:
+                        new InputDecoration(labelText: "Porcentagem (0 - 100)"),
+                    keyboardType: TextInputType.number,
+                    inputFormatters: <TextInputFormatter>[
+                      WhitelistingTextInputFormatter.digitsOnly
+                    ], // Only numbers can be entered
+                    onSaved: (difficulty) => acti.act_difficulty = difficulty as num,
+                  ),
 
-                Text('Qual o PESO da atividade na média final?'),
-                new TextFormField(
-                  decoration:
-                      new InputDecoration(labelText: "Peso (0 - 10)"),
-                  keyboardType: TextInputType.number,
-                  inputFormatters: <TextInputFormatter>[
-                    WhitelistingTextInputFormatter.digitsOnly
-                  ], // Only numbers can be entered
-                  onSaved: (weight) => acti.act_weight = weight as num,
-                ),
+                  Text('Qual o PESO da atividade na média final?'),
+                  new TextFormField(
+                    decoration:
+                        new InputDecoration(labelText: "Peso (0 - 10)"),
+                    keyboardType: TextInputType.number,
+                    inputFormatters: <TextInputFormatter>[
+                      WhitelistingTextInputFormatter.digitsOnly
+                    ], // Only numbers can be entered
+                    onSaved: (weight) => acti.act_weight = weight as num,
+                  ),
 
-                Text('Qual o seu CONHECIMENTO sobre o assunto?'),
-                new TextFormField(
-                  decoration:
-                      new InputDecoration(labelText: "Porcentagem (0 - 100)"),
-                  keyboardType: TextInputType.number,
-                  inputFormatters: <TextInputFormatter>[
-                    WhitelistingTextInputFormatter.digitsOnly
-                  ], // Only numbers can be entered
-                  onSaved: (knowleage) => acti.act_knowledge = knowleage as num,
-                ),
+                  Text('Qual o seu CONHECIMENTO sobre o assunto?'),
+                  new TextFormField(
+                    decoration:
+                        new InputDecoration(labelText: "Porcentagem (0 - 100)"),
+                    keyboardType: TextInputType.number,
+                    inputFormatters: <TextInputFormatter>[
+                      WhitelistingTextInputFormatter.digitsOnly
+                    ], // Only numbers can be entered
+                    onSaved: (knowleage) => acti.act_knowledge = knowleage as num,
+                  ),
 
-                Text('Quantas HORAS até a entrega da atividade?'),
-                new TextFormField(
-                  decoration:
-                      new InputDecoration(labelText: "Número de horas"),
-                  keyboardType: TextInputType.number,
-                  inputFormatters: <TextInputFormatter>[
-                    WhitelistingTextInputFormatter.digitsOnly
-                  ], // Only numbers can be entered
-                  onSaved: (hours) => acti.act_hours = hours as num,
-                ),
+                  Text('Quantas HORAS até a entrega da atividade?'),
+                  new TextFormField(
+                    decoration:
+                        new InputDecoration(labelText: "Número de horas"),
+                    keyboardType: TextInputType.number,
+                    inputFormatters: <TextInputFormatter>[
+                      WhitelistingTextInputFormatter.digitsOnly
+                    ], // Only numbers can be entered
+                    onSaved: (hours) => acti.act_hours = hours as num,
+                  ),
 
-                RaisedButton(
-                  child: Text('Criar'),
-                  onPressed: () {
-                    if (this._formKey.currentState.validate()) {
-                      setState(() {
-                        this._formKey.currentState.save();
-                      });
-                    }
-                  },
-                ),
-                SizedBox(height: 50.0),
-                // Text('${this._name} is ${this._age} years old')
-              ],
+                  SizedBox(height: 50.0),
+
+                  ButtonCustom(
+                    title: "Salvar",
+                    iconData: Icons.save,
+                    reverseColor: true,
+                    onPressed: () {
+                      if (this._formKey.currentState.validate()) {
+                        setState(() {
+                          this._formKey.currentState.save();
+                        });
+                      }
+                    },
+                  ),
+
+                  SizedBox(height: 50.0),
+                  // Text('${this._name} is ${this._age} years old')
+                ],
+              ),
             ),
           ),
         ),
