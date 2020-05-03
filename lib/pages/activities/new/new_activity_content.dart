@@ -2,7 +2,6 @@ import 'package:SmartMoodle/pages/widgets/button_custom.dart';
 import 'package:flutter/services.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:flutter/material.dart';
-
 import 'package:SmartMoodle/models/Activity.dart';
 import 'package:path/path.dart';
 
@@ -19,6 +18,13 @@ class NewActivityContentPage extends StatefulWidget {
 class _DrawerWidgetState extends State<NewActivityContentPage> {
 
   final _formKey = GlobalKey<FormState>();
+  bool _autoValidate = false;
+
+  ActivityProvider provider = new ActivityProvider();
+  
+
+  String pathcompleted = join(pathtodb.toString(), 'smartmoodle.db');
+  Activity acti = new Activity();
 
   ActivityProvider provider = new ActivityProvider();
   
@@ -27,7 +33,6 @@ class _DrawerWidgetState extends State<NewActivityContentPage> {
   Activity acti = new Activity();
 
 BuildContext aux;
-
   
   @override
   Widget build(BuildContext context) {
