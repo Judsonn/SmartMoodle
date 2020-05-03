@@ -1,5 +1,5 @@
 name: SmartMoodle
-description: Aplicativo para auxiliar usuários do moodle através de tecnologuas persuasivas.
+description: Aplicativo para auxiliar usuários do moodle através de tecnologias persuasivas.
 
 version: 1.0.0+1
 
@@ -17,7 +17,7 @@ dependencies:
   rflutter_alert: ^1.0.3
   flutter_form_builder:
   sqflite: ^1.1.7+3
-  mobx: 0.3.9+3
+  mobx: ^0.3.9+3
   flutter_mobx: ^0.3.3+3
   flutter_local_notifications: ^0.8.4+3 
 

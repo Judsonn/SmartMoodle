@@ -1,13 +1,15 @@
-import 'dart:ffi';
 import 'package:SmartMoodle/pages/widgets/button_custom.dart';
+import 'package:flutter/services.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+
 import 'package:SmartMoodle/models/Activity.dart';
+import 'package:path/path.dart';
+
+Future<String> pathtodb = getDatabasesPath();
 
 class NewActivityContentPage extends StatefulWidget {
   final Function onTap;
-
   const NewActivityContentPage({Key key, this.onTap}) : super(key: key);
 
   @override
@@ -15,12 +17,22 @@ class NewActivityContentPage extends StatefulWidget {
 }
 
 class _DrawerWidgetState extends State<NewActivityContentPage> {
+
   final _formKey = GlobalKey<FormState>();
 
-  Activity acti;
+  ActivityProvider provider = new ActivityProvider();
+  
 
+  String pathcompleted = join(pathtodb.toString(), 'smartmoodle.db');
+  Activity acti = new Activity();
+
+BuildContext aux;
+
+  
   @override
   Widget build(BuildContext context) {
+    aux = context;
+    provider.open(pathcompleted);
     // Build a Form widget using the _formKey created above.
     return Scaffold(
       backgroundColor: Color(0xff75dde8),
@@ -145,4 +157,3 @@ class _DrawerWidgetState extends State<NewActivityContentPage> {
     );
   }
 }
-
