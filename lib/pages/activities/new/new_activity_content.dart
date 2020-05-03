@@ -26,13 +26,7 @@ class _DrawerWidgetState extends State<NewActivityContentPage> {
   String pathcompleted = join(pathtodb.toString(), 'smartmoodle.db');
   Activity acti = new Activity();
 
-  ActivityProvider provider = new ActivityProvider();
-  
-
-  String pathcompleted = join(pathtodb.toString(), 'smartmoodle.db');
-  Activity acti = new Activity();
-
-BuildContext aux;
+  BuildContext aux;
   
   @override
   Widget build(BuildContext context) {
