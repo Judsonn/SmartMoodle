@@ -41,6 +41,7 @@ class UserActivities {
 class Events {
   int id;
   String name;
+  int priority;
   String description;
   int categoryid;
   int groupid;
@@ -112,7 +113,8 @@ class Events {
       this.popupname,
       this.mindaytimestamp,
       this.mindayerror,
-      this.draggable});
+      this.draggable,
+      this.priority});
 
   Events.fromJson(Map<String, dynamic> json) {
     id = json['id'];

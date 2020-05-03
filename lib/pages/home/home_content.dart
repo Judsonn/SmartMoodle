@@ -1,6 +1,6 @@
 import 'package:SmartMoodle/pages/activities/new/new_activity_page.dart';
+import 'package:SmartMoodle/pages/widgets/simple_drawer.dart';
 import 'package:flutter/material.dart';
-// import 'package:SmartMoodle/pages/activities/open/my_activities_page.dart';
 
 class HomeContentPage extends StatefulWidget {
   final Function onTap;
@@ -16,12 +16,10 @@ class _DrawerWidgetState extends State<HomeContentPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Ínicio"),
-        leading: GestureDetector(onTap: widget.onTap, child: Icon(Icons.menu)),
+        title: Text("Página Inicial"),
+        // leading: GestureDetector(onTap: widget.onTap, child: Icon(Icons.menu)),
       ),
-      // body: Center(
-      //   child: Text("Tela Inicial - Sem conteúdo ainda"),
-      // ),
+      drawer: SimpleDrawer(),
       body: Center(
         child: Column(
           children: <Widget>[

@@ -1,7 +1,11 @@
 import 'package:SmartMoodle/helpers/utils.dart';
+import 'package:SmartMoodle/models/DatabaseActivityModel.dart';
 import 'package:SmartMoodle/models/UserActivities.dart' as mod;
+import 'package:SmartMoodle/services/database.dart';
 import 'package:SmartMoodle/services/mobx/my_activities_base.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 
@@ -16,11 +20,28 @@ class MyActivitiesContentPage extends StatefulWidget {
 
 class _DrawerWidgetState extends State<MyActivitiesContentPage> {
   MyActivities _myActivitiesBase;
+  List<DataBaseActitivyModel> _dataBaseActitivyModel = [];
   int _radioValue = -1;
 
   @override
   void initState() {
     _myActivitiesBase = MyActivities();
+    DatabaseServices.db.getAllActivities().then((onValue) {
+      if (onValue != null && onValue.isNotEmpty) {
+        _dataBaseActitivyModel = onValue;
+        print(_dataBaseActitivyModel.toString());
+      }
+    });
+
+    var initializationSettingsAndroid =
+        AndroidInitializationSettings('app_icon');
+    var initializationSettingsIOS = IOSInitializationSettings(
+        onDidReceiveLocalNotification: onDidReceiveLocalNotification);
+    var initializationSettings = InitializationSettings(
+        initializationSettingsAndroid, initializationSettingsIOS);
+    flutterLocalNotificationsPlugin.initialize(initializationSettings,
+        onSelectNotification: onSelectNotification);
+
     super.initState();
     _myActivitiesBase.getUserAtivities();
   }
@@ -99,6 +120,11 @@ class _DrawerWidgetState extends State<MyActivitiesContentPage> {
                     scrollDirection: Axis.vertical,
                     itemBuilder: (ctx, index) {
                       mod.Events current = events[index];
+                      DataBaseActitivyModel data = DataBaseActitivyModel(
+                        title: events[index].name,
+                        coursename: events[index].course.fullname,
+                        timestart: events[index].timestart,
+                      );
                       // return Text(listDataTest[index].title);
                       return Material(
                         color: Colors.transparent,
@@ -168,7 +194,14 @@ class _DrawerWidgetState extends State<MyActivitiesContentPage> {
                                   DialogButton(
                                     child: Text("Confirmar",
                                         style: TextStyle(color: Colors.white)),
-                                    onPressed: () {},
+                                    onPressed: () async {
+                                      await _myActivitiesBase.setSaveLocalData(
+                                          data);
+                                      await _myActivitiesBase
+                                          .getUserAtivities();
+                                      await _myActivitiesBase.scheduleNotification(data.title);
+                                      Navigator.pop(context);
+                                    },
                                   ),
                                 ]).show();
                           },
@@ -191,7 +224,11 @@ class _DrawerWidgetState extends State<MyActivitiesContentPage> {
                                           topRight: Radius.circular(0),
                                           bottomLeft: Radius.circular(8),
                                           topLeft: Radius.circular(8)),
-                                      color: Colors.green,
+                                      color: Colors.grey
+                                      // color: _dataBaseActitivyModel.isEmpty
+                                      //     ? Colors.grey
+                                      //     : _getColorByPriority(
+                                      //         _dataBaseActitivyModel[index].priority),
                                     ),
                                     height: 200,
                                     width: 10,
@@ -237,5 +274,49 @@ class _DrawerWidgetState extends State<MyActivitiesContentPage> {
         ),
       ),
     );
+  }
+
+    Future<void> onDidReceiveLocalNotification(
+    int id, String title, String body, String payload) async {
+    // display a dialog with the notification details, tap ok to go to another page
+    await showDialog(
+      context: context,
+      builder: (BuildContext context) => CupertinoAlertDialog(
+        title: Text(title),
+        content: Text(body),
+        actions: [
+          CupertinoDialogAction(
+            isDefaultAction: true,
+            child: Text('Ok'),
+            onPressed: () async {
+              print('notification_pressed');
+
+            },
+          )
+        ],
+      ),
+    );
+  }
+
+  Future<void> onSelectNotification(String payload) async {
+    if (payload != null) {
+      debugPrint('notification payload: ' + payload);
+    }
+  }
+
+  _getColorByPriority(int priority) {
+    switch (priority) {
+      case 1:
+        return Colors.orange;
+        break;
+      case 2:
+        return Colors.yellow[600];
+        break;
+      case 3:
+        return Colors.red[600];
+        break;
+      default:
+        return Colors.grey;
+    }
   }
 }
