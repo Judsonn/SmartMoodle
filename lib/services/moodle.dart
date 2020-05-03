@@ -20,7 +20,7 @@ class MoodleAPI {
       var response = await http.get(requestURL);
       print("moodleAPI/userData/response -> " + response.body);
       return jsonDecode(response.body);
-    }
+    }   
   }
 
   Future<dynamic> userData(String token) async {

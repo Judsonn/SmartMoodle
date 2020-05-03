@@ -34,8 +34,8 @@ class _DrawerWidgetState extends State<MyActivitiesHistoricContentPage> {
               Align(
                 alignment: Alignment.centerLeft,
                 child: IconButton(
-                  icon: Icon(Icons.menu, size: 30, color: Colors.grey),
-                  onPressed: widget.onTap,
+                  icon: Icon(Icons.arrow_back, size: 30, color: Colors.grey),
+                  onPressed: () => Navigator.pop(context),
                 ),
               ),
               Text("Atividades Realizadas", style: TextStyle(color: Colors.grey, fontSize: 24, fontWeight: FontWeight.bold))
